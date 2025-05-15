@@ -21,4 +21,7 @@ func (h *DeviceHandler) CreateDevice(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	// 执行成功后返回 code 为 200 的 JSON
+	c.JSON(200, gin.H{"code": 200, "message": "创建设备成功！"})
 }
