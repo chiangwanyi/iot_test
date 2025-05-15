@@ -57,10 +57,10 @@ func (h *DeviceHandler) GetDevicesWithPage(c *gin.Context) {
 		return
 	}
 
-	devicesResp, err := h.DeviceModel.GetDevicesWithPage(page, pageSize)
+	devicesResp, totalCount, err := h.DeviceModel.GetDevicesWithPage(page, pageSize)
 	if err != nil {
 		c.JSON(200, gin.H{"code": 400, "msg": err.Error()})
 		return
 	}
-	c.JSON(200, gin.H{"code": 200, "msg": "获取分页设备列表成功！", "data": devicesResp})
+	c.JSON(200, gin.H{"code": 200, "msg": "获取分页设备列表成功！", "data": devicesResp, "total": totalCount})
 }

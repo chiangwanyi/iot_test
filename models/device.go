@@ -101,12 +101,19 @@ func (m *DeviceModel) GetAllDevices() ([]DeviceResponse, error) {
 }
 
 // GetDevicesWithPagination 分页查询设备列表
-func (m *DeviceModel) GetDevicesWithPage(page, pageSize int) ([]DeviceResponse, error) {
+func (m *DeviceModel) GetDevicesWithPage(page, pageSize int) ([]DeviceResponse, int, error) {
+	// 查询总记录数
+	var totalCount int
+	err := m.DB.QueryRow("SELECT COUNT(*) FROM devices").Scan(&totalCount)
+	if err != nil {
+		return nil, 0, err
+	}
+
 	offset := (page - 1) * pageSize
 	query := `SELECT * FROM devices LIMIT ? OFFSET ?`
 	rows, err := m.DB.Query(query, pageSize, offset)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	defer rows.Close()
 
@@ -115,16 +122,16 @@ func (m *DeviceModel) GetDevicesWithPage(page, pageSize int) ([]DeviceResponse, 
 		var device Device
 		err = rows.Scan(&device.ID, &device.SN, &device.Name, &device.Description, &device.Model, &device.Type, &device.IPAddr, &device.Status, &device.LastOnlineAt, &device.UpdatedAt, &device.CreatedAt)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		}
 		result = append(result, device.convert())
 	}
 
 	if err = rows.Err(); err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
-	return result, nil
+	return result, totalCount, nil
 }
 
 // 将Device转换为DeviceResponse
