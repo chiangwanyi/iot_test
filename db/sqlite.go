@@ -11,7 +11,7 @@ var SqliteConn *sql.DB
 
 func Init() {
 	var err error
-	SqliteConn, err = sql.Open("sqlite", "iot_device.db")
+	SqliteConn, err = sql.Open("sqlite", "iot_test.db")
 	if err != nil {
 		log.Fatalf("打开数据库失败: %v", err)
 		panic(err)

@@ -3,10 +3,10 @@ package routes
 import (
 	"database/sql"
 
+	"github.com/chiangwanyi/iot_test/handler"
 	"github.com/gin-gonic/gin"
 )
 
-// SetupRoutes 配置应用路由
 func SetupRoutes(router *gin.Engine, db *sql.DB) {
 	// // 创建模型实例
 	// userModel := &models.UserModel{DB: db}
@@ -22,7 +22,7 @@ func SetupRoutes(router *gin.Engine, db *sql.DB) {
 	// 	DeviceModel: deviceModel,
 	// }
 
-	// // 公开路由组
+	// 公开路由组
 	// public := router.Group("/api")
 	// {
 	// 	// 认证相关路由
@@ -48,4 +48,7 @@ func SetupRoutes(router *gin.Engine, db *sql.DB) {
 	// {
 	// 	// 管理员专用路由
 	// }
+
+	// 添加 /ping 路由
+	router.GET("/ping", handler.PingHandler)
 }

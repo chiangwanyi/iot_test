@@ -5,15 +5,13 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/chiangwanyi/iot_test/config"
 	"github.com/chiangwanyi/iot_test/db"
 	"github.com/chiangwanyi/iot_test/routes"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// 初始化配置和数据库
-	config.LoadConfig()
+	// 初始数据库
 	db.Init()
 
 	// 设置Gin模式
