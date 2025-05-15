@@ -25,6 +25,8 @@ func SetupRoutes(router *gin.Engine, db *sql.DB) {
 		// 设备管理路由
 		public.POST("/devices", deviceHandler.CreateDevice)
 		// 新增获取所有设备的路由
-		public.GET("/devices", deviceHandler.GetAllDevices)
+		public.GET("/devices/list", deviceHandler.GetAllDevices)
+		// 新增分页查询设备的路由
+		public.GET("/devices/page", deviceHandler.GetDevicesWithPage)
 	}
 }
