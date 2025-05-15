@@ -31,10 +31,7 @@ func main() {
 	routes.SetupRoutes(router, db.SqliteConn)
 
 	// 启动服务器
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	port := "8080"
 	srv := &http.Server{
 		Addr:    ":" + port,
 		Handler: router,
