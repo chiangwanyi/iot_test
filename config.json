@@ -1,0 +1,5 @@
+{
+    "debug": true,
+    "port": 8080,
+    "db_path": "iot_test.db"
+}
