@@ -7,10 +7,20 @@ import (
 
 	"github.com/chiangwanyi/iot_test/db"
 	"github.com/chiangwanyi/iot_test/routes"
+	"github.com/chiangwanyi/iot_test/tcp_mgr"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// 初始化TCP管理器
+	tcpMgr := tcp_mgr.NewTcpMgr()
+	// 启动TCP服务
+	go func() {
+		if err := tcpMgr.Start(); err != nil {
+			log.Printf("启动TCP服务失败: %v", err)
+		}
+	}()
+
 	// 初始数据库
 	db.Init()
 
@@ -28,7 +38,7 @@ func main() {
 	router.Use(corsMiddleware())
 
 	// 注册路由
-	routes.SetupRoutes(router, db.SqliteConn)
+	routes.SetupRoutes(router, db.SqliteConn, tcpMgr)
 
 	// 启动服务器
 	port := "8080"
